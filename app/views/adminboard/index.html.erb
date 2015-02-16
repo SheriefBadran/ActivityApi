@@ -1,0 +1,15 @@
+<div id="adminboard">
+    <ul class ="list-group">
+      <header>
+        <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, class: 'btn btn-success pull-right' %>
+        <h1>Application owners</h1>
+      </header>
+      <% @users.each do |u| %>
+        <li class="list-group-item">
+          <p><span class="glyphicon glyphicon-envelope"></span> <%= u.email %></p>
+          <p><span class="fa fa-key"></span> <%= u.api_key %></p>
+          <p><%= link_to 'Revoke', adminboard_path(u), class: 'btn btn-danger' %></p>
+        </li>
+      <% end %>
+    </ul>
+</div>

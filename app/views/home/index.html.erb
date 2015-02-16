@@ -1,0 +1,12 @@
+<div id="home" class="jumbotron text-center col-md-6 col-md-offset-3">
+  <h2><span class="fa fa-key"></span> Easyact - Api Key</h2>
+  <% if user_signed_in? %>
+
+      <%= link_to 'Sign out', destroy_user_session_path, :method => :delete %>
+  <% else %>
+      <%= link_to 'Sign up', new_user_registration_path, class: 'btn btn-success' %>
+      <b>or</b>
+      <%= link_to 'Sign in', new_user_session_path, class:'btn btn-success' %>
+
+  <% end %>
+</div>

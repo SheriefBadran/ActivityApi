@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>EasyActApiHandler</title>
+  <!-- Is there another practise for referencing font-awesome css -->
+  <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+          <% flash.each do |name, msg| %>
+
+              <% if name == 'alert'%>
+                <%= content_tag :div, msg, :id => 'alert-response', class: 'alert alert-dismissable alert-danger col-md-6 col-md-offset-3' %>
+              <% else %>
+                  <%= content_tag :div, msg, :id => 'success-response', class: 'alert alert-dismissable alert-success col-md-6 col-md-offset-3' %>
+              <% end %>
+          <% end %>
+        </div>
+
+        <%= yield %>
+    </div>
+</body>
+</html>
