@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     resources :categories
     resources :activities
 
-    get '/categories/:category' => 'categories#show'
+    get '/activities/:category' => 'activities#show'
     get '/activities/:id' => 'activities#show'
   end
 

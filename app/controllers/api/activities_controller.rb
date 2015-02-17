@@ -17,10 +17,22 @@ module Api
     end
 
     def show
-      if params[:id]
+      if !is_number?(params[:id])
+        # category = Category.where(category: params[:id]).first
+        category = Category.find_by_category(params[:id])
+        activity_by_category = category.activities
+        respond_to do |format|
+          format.json { render json: activity_by_category, status: :ok }
+          format.xml { render xml: activity_by_category, status: :ok }
+        end
+      else
         activity = Activity.find(params[:id])
         render json: activity, status: :ok
       end
+    end
+
+    def is_number?(object)
+      true if Integer(object) rescue false
     end
 
   end

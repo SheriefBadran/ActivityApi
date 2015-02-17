@@ -9,4 +9,8 @@ class Category < ActiveRecord::Base
     }.update(options)
     super(options)
   end
+
+  def to_param
+    category
+  end
 end
