@@ -6,7 +6,12 @@ class ApplicationController < ActionController::Base
 
   protected
     def authenticate
-      authenticate_or_request_with_http_token do |token, options|
+      authenticate_token or render_unauthorized
+    end
+
+    def authenticate_token
+      # reads token of the authorization header and returns a boolean, does not halt the request.
+      authenticate_with_http_token do |token, options|
         User.find_by(api_key: token)
       end
     end

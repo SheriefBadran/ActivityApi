@@ -1,6 +1,11 @@
 module Api
   class ActivitiesController < ApplicationController
     before_action :authenticate
+    before_action :get_activity, only: [:update, :destroy]
+
+    def get_activity
+      @activity = Activity.find(params[:id])
+    end
 
     def index
 
@@ -42,11 +47,7 @@ module Api
     end
 
     def create
-      activity = Activity.new(
-          name: params[:name],
-          description: params[:description],
-          indoors: params[:indoors]
-      )
+      activity = Activity.new(activity_params)
       activity.categories << Category.find(params[:category_id])
 
       if activity.save
@@ -57,25 +58,21 @@ module Api
     end
 
     def update
-      activity = Activity.find(params[:id])
-      update = activity.update(name: params[:name], description: params[:description], indoors: params[:indoors])
-
+      update = @activity.update(activity_params)
       if update
-        render json: activity, status: :ok
+        render json: @activity, status: :ok
       else
-        render json: activity.errors, status: :unprocessable_entity
+        render json: @activity.errors, status: :unprocessable_entity
       end
     end
 
     def destroy
-      activity = Activity.find(params[:id])
       activitycategory = Activitycategory.find_by_activity_id(params[:id])
-
       # Destroy relation between activity and category.
-      if activity.destroy and activitycategory.destroy
-        render json:activity, status: :ok
+      if @activity.destroy and activitycategory.destroy
+        render json: @activity, status: :ok
       else
-        render json: activity.errors, status: :unprocessable_entity
+        render json: @activity.errors, status: :unprocessable_entity
       end
     end
 
@@ -87,6 +84,16 @@ module Api
 
       def is_number?(object)
         true if Integer(object) rescue false
+      end
+
+      # Called from application_controller
+      def render_unauthorized
+        self.headers['WWW-Authenticate'] = 'Token realm = "Activities"'
+
+        respond_to do |format|
+          format.json {render json: 'Credentials not valid', status: 401}
+          format.xml {render xml: 'Credentials not valid', status: 401}
+        end
       end
 
   end

@@ -10,7 +10,7 @@ class Activity < ActiveRecord::Base
 
   def serializable_hash (options={})
     options = {
-        only: [:id, :name],
+        only: [:id, :name, :description],
         include: [:position]
     }.update(options)
     json = super(options)

@@ -23,9 +23,15 @@ module Api
       end
     end
 
-    def create
+    private
+      # Called from application_controller
+      def render_unauthorized
+        self.headers['WWW-Authenticate'] = 'Token realm = "Categories"'
 
-    end
-
+        respond_to do |format|
+          format.json {render json: 'Credentials not valid', status: 401}
+          format.xml {render xml: 'Credentials not valid', status: 401}
+        end
+      end
   end
 end
