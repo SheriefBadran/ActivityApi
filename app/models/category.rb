@@ -2,10 +2,11 @@ class Category < ActiveRecord::Base
   has_many :activitycategories
   has_many :activities, through: :activitycategories
 
+  validates :category, uniqueness: true
+
   def serializable_hash (options={})
     options = {
-        only: [:category],
-        include: [:activities]
+        only: [:category]
     }.update(options)
     super(options)
   end

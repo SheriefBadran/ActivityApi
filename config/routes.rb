@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
     get '/activities/:category' => 'activities#show'
     get '/activities/:id' => 'activities#show'
+    #post '/activities' => 'activities#create'
   end
 
   # Api Key Registration App Routing
