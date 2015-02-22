@@ -1,4 +1,5 @@
 class Activity < ActiveRecord::Base
+  belongs_to :creator
   belongs_to :position
   has_many :activitycategories
   has_many :categories, through: :activitycategories
@@ -11,7 +12,7 @@ class Activity < ActiveRecord::Base
   def serializable_hash (options={})
     options = {
         only: [:id, :name, :description],
-        include: [:position]
+        include: [:position, :creator]
     }.update(options)
     json = super(options)
     # HATEOAS - set path in json object sent to client.
