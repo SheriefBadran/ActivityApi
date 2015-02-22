@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
     self.api_key = SecureRandom.base64(24)
   end
 
-  # Common to user uuid for api keys.
+  # Common to use uuid for api keys.
   def generate_uuid_api_key
     self.api_key = SecureRandom.uuid
   end

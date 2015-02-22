@@ -16,7 +16,7 @@
                   <%= link_to 'Generate New Api Key', edit_dashboard_path('key'), class: 'btn btn-success' %>
               <% end %>
 
-            <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, class: 'btn btn-success' %>
+            <%= link_to 'Sign out', destroy_user_session_path, :method => :delete, class: 'btn btn-success', data: {no_turbolink: true} %>
           <% end %>
       </div>
     </div>
