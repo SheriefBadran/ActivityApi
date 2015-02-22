@@ -19,6 +19,8 @@ module Api
         activities = Activity.offset(offset).limit(params[:size])
       elsif params[:offset] and params[:limit]
         activities = Activity.offset(params[:offset]).limit(params[:limit])
+      elsif params[:search] === 'true' and params[:query].present?
+        activities = Activity.where('name like ?', '%' + params[:query] + '%')
       else
         activities = Activity.all
       end

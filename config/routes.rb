@@ -3,13 +3,14 @@ Rails.application.routes.draw do
   # Api routing
   namespace :api, path: '/', constraits: {subdomain: 'api'} do
 
-    resources :creators
-    resources :categories
-    resources :activities
+    resources :creators, only: [:index, :show]
+    resources :categories, only: [:index, :show]
+    resources :activities, except: :patch
 
     get '/creators/:id/activities' => 'creators#show'
     get '/activities/:category' => 'activities#show'
     get '/activities/:id' => 'activities#show'
+    get '/activities/:search' => 'activities#search'
     #post '/activities' => 'activities#create'
   end
 
