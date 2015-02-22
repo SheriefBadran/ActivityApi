@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     get '/creators/:id/activities' => 'creators#show'
     get '/activities/:category' => 'activities#show'
     get '/activities/:id' => 'activities#show'
-    get '/activities/:search' => 'activities#search'
     #post '/activities' => 'activities#create'
   end
 
