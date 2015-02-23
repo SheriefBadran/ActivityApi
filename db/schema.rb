@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150222115407) do
+ActiveRecord::Schema.define(version: 20150223084735) do
 
   create_table "activities", force: :cascade do |t|
     t.string   "name"
@@ -38,28 +38,19 @@ ActiveRecord::Schema.define(version: 20150222115407) do
   end
 
   create_table "creators", force: :cascade do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
+    t.string   "email"
+    t.string   "password_digest"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "creators", ["email"], name: "index_creators_on_email", unique: true
-  add_index "creators", ["reset_password_token"], name: "index_creators_on_reset_password_token", unique: true
 
   create_table "positions", force: :cascade do |t|
-    t.string   "lat"
-    t.string   "long"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   create_table "users", force: :cascade do |t|

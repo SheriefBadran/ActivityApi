@@ -9,21 +9,21 @@
 # test@test.se: testpassword
 # admin@test.se: adminpassword
 
-# user = User.create!({
-#                        id: 1, email: 'test@test.se',
-#                        password: 'testpassword',
-#                        api_key: 'da3bebae-b6a1-4333-9835-b4d94387b1b1',
-#                        admin: 'false'
-#                    })
-#
-# admin = User.create!({
-#                         id: 2, email: 'admin@test.se',
-#                         password: 'adminpassword',
-#                         api_key: '9864e2f2-212c-4984-8580-fdd6f6a00b95',
-#                         admin: 'true'
-#                     })
-# user.save
-# admin.save
+user = User.create!({
+                       id: 1, email: 'test@test.se',
+                       password: 'testpassword',
+                       api_key: 'da3bebae-b6a1-4333-9835-b4d94387b1b1',
+                       admin: 'false'
+                   })
+
+admin = User.create!({
+                        id: 2, email: 'admin@test.se',
+                        password: 'adminpassword',
+                        api_key: '9864e2f2-212c-4984-8580-fdd6f6a00b95',
+                        admin: 'true'
+                    })
+user.save
+admin.save
 
 # Create Activities
 
@@ -60,10 +60,10 @@ act4 = Activity.create(name: "Kalmar-mgk-bangolf",
 
 
 # Create Positions
-pos1 = Position.create(lat:"56.6867115", long: "16.3399535")
-pos2 = Position.create(lat:"56.676153", long: "16.36335")
-pos3 = Position.create(lat:"56.800608", long: "16.588675")
-pos4 = Position.create(lat:"56.6799126", long: "16.4590378")
+pos1 = Position.create(latitude:56.6867115, longitude: 16.3399535)
+pos2 = Position.create(latitude:56.676153, longitude: 16.36335)
+pos3 = Position.create(latitude:56.800608, longitude: 16.588675)
+pos4 = Position.create(latitude:56.6799126, longitude: 16.4590378)
 
 # Create Categories
 cat1 = Category.create(category: "idrott")

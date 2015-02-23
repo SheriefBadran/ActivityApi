@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     get '/creators/:id/activities' => 'creators#show'
     get '/activities/:category' => 'activities#show'
     get '/activities/:id' => 'activities#show'
+    get '/positions/geocoder' => 'positions#geocoder'
+    post '/auth' => 'sessions#api_auth'
     #post '/activities' => 'activities#create'
   end
 

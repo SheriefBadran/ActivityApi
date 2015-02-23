@@ -1,12 +1,13 @@
 module Api
   class ActivitiesController < ApplicationController
+    #before_action :authenticate_user!, only: [:update, :create, :destroy]
     before_action :authenticate
+    before_action :authenticate_creator, only: [:update, :create, :destroy]
     before_action :get_activity, only: [:update, :destroy]
 
     def get_activity
       @activity = Activity.find(params[:id])
     end
-
     def index
 
       if params[:sort].present? and params[:sort] === 'date'
@@ -20,7 +21,10 @@ module Api
       elsif params[:offset] and params[:limit]
         activities = Activity.offset(params[:offset]).limit(params[:limit])
       elsif params[:search] === 'true' and params[:query].present?
-        activities = Activity.where('name like ?', '%' + params[:query] + '%')
+        activities = Activity.where('name like ?', "%#{params[:query]}%")
+      elsif params[:range] and params[:position]
+        positions = Position.near(params[:position], params[:range])
+        activities = positions.flat_map(&:activities)
       else
         activities = Activity.all
       end
@@ -35,6 +39,7 @@ module Api
       if params[:id].present? && !is_number?(params[:id])
         # category = Category.where(category: params[:id]).first
         category = Category.find_by_category(params[:id])
+        return not_found if category.nil?
         activity_by_category = category.activities
 
         respond_to do |format|
@@ -97,6 +102,5 @@ module Api
           format.xml {render xml: 'Credentials not valid', status: 401}
         end
       end
-
   end
 end
