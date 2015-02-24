@@ -98,8 +98,8 @@ module Api
         self.headers['WWW-Authenticate'] = 'Token realm = "Activities"'
 
         respond_to do |format|
-          format.json {render json: 'Credentials not valid', status: 401}
-          format.xml {render xml: 'Credentials not valid', status: 401}
+          format.json {render json: '"Credentials not valid"', status: 401}
+          format.xml {render xml: '<error>Credentials not valid</error>', status: 401}
         end
       end
   end

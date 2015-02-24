@@ -26,7 +26,17 @@ class ApplicationController < ActionController::Base
     end
 
     def authenticate_creator
-      decodeJWT params[:token]
+      if request.headers['token'].present?
+        token = request.headers['token']
+        payload = decodeJWT(token.strip)
+        if payload
+          creator_id = payload[0]['creator_id']
+        else
+          render json: { error: 'token invalid' }, status: :bad_request
+        end
+      else
+        render json: { error: 'token missing' }, status: :forbidden
+      end
     end
 
     def not_found
