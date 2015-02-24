@@ -57,6 +57,8 @@ module Api
       activity = Activity.new(activity_params)
       activity.categories << Category.find(params[:category_id])
 
+      # creator_id is set in sessions_helper.rb
+      activity.creator_id = @creator_id
       if activity.save
         render json: activity, status: :created , location: api_activity_path(activity)
       else
@@ -86,7 +88,7 @@ module Api
     private
       # currently not used
       def activity_params
-        params.require(:activity).permit(:name, :description, :indoors)
+        params.require(:activity).permit(:name, :description, :indoors, :position_id)
       end
 
       def is_number?(object)

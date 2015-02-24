@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
         token = request.headers['token']
         payload = decodeJWT(token.strip)
         if payload
-          creator_id = payload[0]['creator_id']
+          @creator_id = payload[0]['creator_id']
         else
           render json: { error: 'token invalid' }, status: :bad_request
         end
