@@ -3,5 +3,5 @@
 ## Installeringsmanual
 
 * I terminalen, kör en rake db:setup.
-* Projektet använder ett gem som heter device för registrering och login.
-* Kör bundle install.
+* Kör bundle install. (tillagda gems: device, geocoder, rack-cors)
+* Importera med följande länk i Postman: https://www.getpostman.com/collections/49ee035bad593596347e
