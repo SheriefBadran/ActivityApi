@@ -8,6 +8,7 @@ module Api
     def get_activity
       @activity = Activity.find(params[:id])
     end
+
     def index
 
       if params[:sort].present? and params[:sort] === 'date'
@@ -22,8 +23,8 @@ module Api
         activities = Activity.offset(params[:offset]).limit(params[:limit])
       elsif params[:search] === 'true' and params[:query].present?
         activities = Activity.where('name like ?', "%#{params[:query]}%")
-      elsif params[:range] and params[:position]
-        positions = Position.near(params[:position], params[:range])
+      elsif params[:range] and params[:latitude] and params[:longitude]
+        positions = Position.near([params[:latitude].to_f, params[:longitude].to_f], params[:range], units: :km)
         activities = positions.flat_map(&:activities)
       else
         activities = Activity.all
@@ -55,12 +56,12 @@ module Api
 
     def create
       activity = Activity.new(activity_params)
+      return render json: {error: 'Category is missing!'}, :status => :unprocessable_entity unless params.has_key? :category_id
       activity.categories << Category.find(params[:category_id])
-
       # creator_id is set in sessions_helper.rb
       activity.creator_id = @creator_id
       if activity.save
-        render json: activity, status: :created , location: api_activity_path(activity)
+        render json: activity, status: :created, location: api_activity_path(activity)
       else
         render json: activity.errors, status: :unprocessable_entity # 422
       end
@@ -86,23 +87,23 @@ module Api
     end
 
     private
-      # currently not used
-      def activity_params
-        params.require(:activity).permit(:name, :description, :indoors, :position_id)
-      end
+    # currently not used
+    def activity_params
+      params.require(:activity).permit(:name, :description, :indoors, :position_id)
+    end
 
-      def is_number?(object)
-        true if Integer(object) rescue false
-      end
+    def is_number?(object)
+      true if Integer(object) rescue false
+    end
 
-      # Called from application_controller
-      def render_unauthorized
-        self.headers['WWW-Authenticate'] = 'Token realm = "Activities"'
+    # Called from application_controller
+    def render_unauthorized
+      self.headers['WWW-Authenticate'] = 'Token realm = "Activities"'
 
-        respond_to do |format|
-          format.json {render json: '"Credentials not valid"', status: 401}
-          format.xml {render xml: '<error>Credentials not valid</error>', status: 401}
-        end
+      respond_to do |format|
+        format.json { render json: '"Credentials not valid"', status: 401 }
+        format.xml { render xml: '<error>Credentials not valid</error>', status: 401 }
       end
+    end
   end
 end
