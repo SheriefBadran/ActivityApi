@@ -1,6 +1,6 @@
 class Activity < ActiveRecord::Base
   belongs_to :creator
-  belongs_to :position
+  belongs_to :position, :dependent => :destroy
   has_many :activitycategories
   has_many :categories, through: :activitycategories
 

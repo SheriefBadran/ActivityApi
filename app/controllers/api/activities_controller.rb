@@ -56,7 +56,14 @@ module Api
 
     def create
       activity = Activity.new(activity_params)
-      return render json: {error: 'Category is missing!'}, :status => :unprocessable_entity unless params.has_key? :category_id
+      return render json: {error: 'Category is missing!'}, :status => :unprocessable_entity unless
+          params.has_key? :category_id and
+          params.has_key? :address
+
+      # Create a position and set address, latitude and longitude will be set automatically by geocoder.
+      position = Position.create(address: params[:address])
+      activity.position = position
+
       activity.categories << Category.find(params[:category_id])
       # creator_id is set in sessions_helper.rb
       activity.creator_id = @creator_id
@@ -87,7 +94,6 @@ module Api
     end
 
     private
-    # currently not used
     def activity_params
       params.require(:activity).permit(:name, :description, :indoors, :position_id)
     end

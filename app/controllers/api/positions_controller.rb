@@ -8,5 +8,17 @@ module Api
         format.xml {render xml: positions, status: :ok}
       end
     end
+
+    def create
+      position = Position.new(position_params)
+      if position.save
+        render json: position, status: :created, location: ''
+      end
+    end
+
+    private
+    def position_params
+      params.require(:position).permit(:address)
+    end
   end
 end

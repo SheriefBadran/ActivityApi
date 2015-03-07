@@ -12,6 +12,7 @@ Rails.application.routes.draw do
     get '/activities/:id' => 'activities#show'
     get '/positions/geocoder' => 'positions#geocoder'
     post '/auth' => 'sessions#api_auth'
+    post '/positions' => 'positions#create'
     #post '/activities' => 'activities#create'
   end
 
