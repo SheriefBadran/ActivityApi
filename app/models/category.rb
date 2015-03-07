@@ -6,7 +6,7 @@ class Category < ActiveRecord::Base
 
   def serializable_hash (options={})
     options = {
-        only: [:category]
+        only: [:id, :category]
     }.update(options)
     super(options)
   end
