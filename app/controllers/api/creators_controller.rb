@@ -3,7 +3,11 @@ module Api
     before_action :authenticate
 
     def index
-      creators = Creator.all
+      if params[:search] === 'true' and params[:query].present?
+        creators = Creator.where('email like ?', "%#{params[:query]}%")
+      else
+        creators = Creator.all
+      end
 
       respond_to do |format|
         format.json { render json: creators, status: :ok }

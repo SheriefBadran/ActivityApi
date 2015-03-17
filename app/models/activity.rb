@@ -17,6 +17,9 @@ class Activity < ActiveRecord::Base
     json = super(options)
     # HATEOAS - set path in json object sent to client.
     json['url'] = Rails.application.routes.url_helpers.api_activity_path(self)
+    puts self.categories.inspect
+    json['categories'] = self.categories.as_json {}
+
     return json
   end
 

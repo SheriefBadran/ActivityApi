@@ -5,6 +5,7 @@ class Category < ActiveRecord::Base
   validates :category, uniqueness: true
 
   def serializable_hash (options={})
+    options = {} if options.nil?
     options = {
         only: [:id, :category]
     }.update(options)

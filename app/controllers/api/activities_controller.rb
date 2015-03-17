@@ -7,6 +7,9 @@ module Api
 
     def get_activity
       @activity = Activity.find(params[:id])
+      if @creator_id != @activity.creator.id
+        render json: { error: 'Permission denied to modify resource.' }, status: :forbidden
+      end
     end
 
     def index
@@ -75,6 +78,9 @@ module Api
     end
 
     def update
+      position = Position.create(address: params[:address])
+      @activity.position = position
+      @activity.categories = [Category.find(params[:category_id])]
       update = @activity.update(activity_params)
       if update
         render json: @activity, status: :ok
@@ -84,13 +90,14 @@ module Api
     end
 
     def destroy
-      activitycategory = Activitycategory.find_by_activity_id(params[:id])
-      # Destroy relation between activity and category.
-      if @activity.destroy and activitycategory.destroy
-        render json: @activity, status: :ok
-      else
-        render json: @activity.errors, status: :unprocessable_entity
-      end
+        activitycategory = Activitycategory.find_by_activity_id(params[:id])
+        # Destroy relation between activity and category.
+
+        if @activity.destroy and activitycategory.destroy
+          render json: @activity, status: :ok
+        else
+          render json: @activity.errors, status: :unprocessable_entity
+        end
     end
 
     private

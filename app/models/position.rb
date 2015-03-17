@@ -13,7 +13,7 @@ class Position < ActiveRecord::Base
 
   def serializable_hash (options={})
     options = {
-        only: [:address, :latitude, :longitude]
+        only: [:address, :latitude, :longitude, :city, :zipcode, :country]
     }.update(options)
     super(options)
   end
