@@ -13,7 +13,7 @@ module Api::SessionsHelper
     if payload[0]["exp"] >= Time.now.to_i
       payload
     else
-      puts 'time is out.'
+      puts 'Time session ran out for authentication.'
       false
     end
 
